@@ -1,5 +1,6 @@
 package org.fastcompus.post.domain;
 
+import org.fastcompus.post.domain.content.PostContent;
 import org.fastcompus.user.domain.User;
 
 public class Post {
