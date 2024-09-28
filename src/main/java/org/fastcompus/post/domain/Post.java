@@ -1,12 +1,16 @@
 package org.fastcompus.post.domain;
 
+import org.fastcompus.common.domain.PositiveIntegerCounter;
 import org.fastcompus.post.domain.content.PostContent;
+import org.fastcompus.post.domain.content.PostPublicationState;
 import org.fastcompus.user.domain.User;
 
 public class Post {
     private final Long id;
     private final User author;
     private final PostContent content;
+    private final PositiveIntegerCounter likeCount;
+    private PostPublicationState state;
 
     public Post(Long id, User author, PostContent content) {
         if (author == null) {
@@ -15,6 +19,33 @@ public class Post {
         this.id = id;
         this.author = author;
         this.content = content;
+        this.likeCount = new PositiveIntegerCounter();  // self 0 초기화
+        this.state = PostPublicationState.PUBLIC;
+    }
+
+    /**
+     * PositiveIntegerCounter을 활용한 like 기능 구현
+     */
+    public void like(User user) {
+        if (this.author.equals(user)){
+            throw new IllegalArgumentException("Cannot like a post that already liked");
+        }
+        this.likeCount.increase();
+    }
+
+    public void unlike(User user) {
+//        if (this.author.equals(user)){
+//            throw new IllegalArgumentException("Cannot unlike a post that already liked");
+//        } // 이미 사용자는 자기 자신을 좋아요 할수 없기 때문에 increase에서 방어가 된다.
+        this.likeCount.decrease();
+    }
+
+    public void updatePost(User user, String updateContent, PostPublicationState state) {
+        if (!this.author.equals(user)) {
+            throw new IllegalArgumentException("Cannot update a post that already liked");
+        }
+        this.state = state;
+        this.content.updateContent(updateContent);
     }
 }
 

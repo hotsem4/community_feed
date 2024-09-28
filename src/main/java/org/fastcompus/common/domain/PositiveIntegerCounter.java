@@ -1,9 +1,9 @@
-package org.fastcompus.user.domain;
+package org.fastcompus.common.domain;
 
-public class UserRelationCounter {
+public class PositiveIntegerCounter {
     private int count;
 
-    public UserRelationCounter(int count) {
+    public PositiveIntegerCounter() {
         this.count = 0;
     }
 

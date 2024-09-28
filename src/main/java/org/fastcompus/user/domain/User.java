@@ -1,19 +1,24 @@
 package org.fastcompus.user.domain;
 
 import java.util.Objects;
+import org.fastcompus.common.domain.PositiveIntegerCounter;
 
 public class User {
     private final Long id;
     private final UserInfo info;  // VO
-    private final UserRelationCounter followingCount; // VO -> 내가 팔로우하고 있는 수
-    private final UserRelationCounter followerCount;  // VO -> 남이 나를 팔로우하고 있는 수
+    private final PositiveIntegerCounter followingCount; // VO -> 내가 팔로우하고 있는 수
+    private final PositiveIntegerCounter followerCount;  // VO -> 남이 나를 팔로우하고 있는 수
 
-    public User(Long id, UserInfo userInfo, UserRelationCounter followingCount,
-        UserRelationCounter followerCount) {
+    public User(Long id, UserInfo userInfo) {
         this.id = id;
         this.info = userInfo;
-        this.followingCount = followingCount;
-        this.followerCount = followerCount;
+        // 이렇게 할 경우 User를 만들 때 항상 0인 값을 불필요하게 User 객체에서 생성하고 넣어야한다.
+        // 하지만 followingCount와 followerCount는 생성시 항상 0이여야하기 때문에 생성자에서 관리하는 것이 올바르다.
+//        this.followingCount = followingCount;
+//        this.followerCount = followerCount;
+        this.followingCount = new PositiveIntegerCounter();
+        this.followerCount = new PositiveIntegerCounter();
+
     }
     // 내가 -> 상대
     public void follow(User targetUser){
