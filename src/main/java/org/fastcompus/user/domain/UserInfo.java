@@ -9,10 +9,7 @@ public class UserInfo {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name is null or empty");
         }
-
         this.name = name;
         this.profileImageUrl = profileImageUrl;
     }
-
-
 }

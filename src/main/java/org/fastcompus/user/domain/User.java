@@ -10,6 +10,9 @@ public class User {
     private final PositiveIntegerCounter followerCount;  // VO -> 남이 나를 팔로우하고 있는 수
 
     public User(Long id, UserInfo userInfo) {
+        if (userInfo == null){
+            throw new IllegalArgumentException("userInfo is null");
+        }
         this.id = id;
         this.info = userInfo;
         // 이렇게 할 경우 User를 만들 때 항상 0인 값을 불필요하게 User 객체에서 생성하고 넣어야한다.
@@ -68,5 +71,12 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public int followerCount() {
+        return followerCount.getCount();
+    }
+    public int followingCount() {
+        return followingCount.getCount();
     }
 }
